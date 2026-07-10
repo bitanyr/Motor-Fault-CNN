@@ -14,7 +14,6 @@ voltage/current, rotor current, and speed signals. Built as a course project for
 - [Repository structure](#repository-structure)
 - [Setup](#setup)
 - [Usage](#usage)
-- [Authors](#authors)
 - [License](#license)
 
 ## Problem
