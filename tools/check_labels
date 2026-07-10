@@ -1,0 +1,52 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+#
+# این اسکریپت رو دقیقا کنار همون ۶ فایل .mat (همون پوشه‌ای که پایتون قبلی رو
+# اجرا کردید، یعنی D:\GAA\5\Electrical Machines 2\dsp) ذخیره کنید و اجرا کنید.
+# کاری که می‌کنه: به‌جای اینکه با Import Wizard دستی روی هر فایل کلیک کنید و
+# ۷۰۰ ردیف رو اسکرول کنید، برای هر فایل فقط مقادیر یکتای label_data رو چاپ
+# می‌کنه. اگر هر فایل درست باشه، باید فقط یک عدد ثابت (بین 0 تا 5) چاپ بشه،
+# و در کل ۶ فایل، هر عدد از 0 تا 5 دقیقا یک‌بار دیده بشه.
+
+import scipy.io as scio
+import numpy as np
+
+files = [
+    'Preprocessed_Test_Data_Rotor_Current_Faild.mat',
+    'Preprocessed_Disconnect_Phase_10_11_21_.mat',
+    'Preprocessed_Rotor_Current_Failed_R_.mat',
+    'Preprocessed_Short_between_two_phases_.mat',
+    'Preprocessed_Test_Data_Short_phases_Ln_G_.mat',
+    'Preprocessed_No_failed.mat',
+]
+
+seen_labels = []
+for f in files:
+    try:
+        mat = scio.loadmat(f)
+    except FileNotFoundError:
+        print(f"{f:55s} -> پیدا نشد (اسم فایل رو چک کنید)")
+        continue
+
+    if 'label_data' in mat:
+        lbl = mat['label_data']
+    else:
+        # اگر ساختار فایل شما فرق داره، اسم کلیدهای موجود رو چاپ می‌کنیم
+        print(f"{f:55s} -> کلید 'label_data' نداره. کلیدهای موجود: "
+              f"{[k for k in mat.keys() if not k.startswith('__')]}")
+        continue
+
+    unique_vals = np.unique(lbl)
+    n_rows = lbl.shape[0]
+    print(f"{f:55s} -> شکل={lbl.shape}  مقادیر یکتا={unique_vals}")
+    if len(unique_vals) != 1:
+        print("      !! هشدار: این فایل بیش از یک مقدار لیبل داره، یعنی مخلوط شده")
+    seen_labels.extend(unique_vals.tolist())
+
+print()
+print("همه‌ی مقادیر یکتا دیده‌شده در کل ۶ فایل:", sorted(set(seen_labels)))
+print("باید دقیقا این باشه: [0, 1, 2, 3, 4, 5]  (هر کدوم یک‌بار)")
+if sorted(set(seen_labels)) != [0, 1, 2, 3, 4, 5]:
+    print("!! چیزی درست نیست: یا یک عدد تکراره، یا یکی جا افتاده")
+else:
+    print("لیبل‌ها سالمن.")
