@@ -139,31 +139,6 @@ architecture), a scheduler stepped every batch instead of every epoch, an
 in-place tensor mutation that corrupted the underlying dataset array, and a
 hardcoded Windows output path.
 
-## Repository structure
-
-```
-motor-fault-cnn/
-├── README.md
-├── requirements.txt
-├── .gitignore
-├── src/
-│   ├── baseline_cnn.py         # TensorFlow reference CNN
-│   ├── pfdataset.py            # PyTorch Dataset + transforms
-│   └── motor_fault_cnn.py      # PyTorch training script (main entry point)
-├── tools/                      # diagnostic / validation scripts, not required to train
-│   ├── check_labels.py         # verifies raw .mat label integrity
-│   ├── plot_samples.py         # plots real samples per class for visual inspection
-│   └── sequential_split_test.py# chronological train/test split, leakage check
-└── results/
-    ├── training_curve.png
-    └── classification_report.txt
-```
-
-## Setup
-
-```bash
-pip install -r requirements.txt
-```
 
 ## Usage
 
@@ -185,19 +160,9 @@ python ../tools/sequential_split_test.py
 `motor_fault_cnn.py` stops automatically once test accuracy has held ≥99.9% for
 8 consecutive epochs, instead of always running the full epoch budget.
 
-## Authors
-
-- Bita Neyeri
-- Ariana Khajevand
-- Nazanin Sodaei
-
 Course: *Electrical Machines 2 & Electrical Machines Lab 1*, Instructor: Dr.
-Aghashabani. *(Update names/affiliation as appropriate before publishing — this
-was a team submission; make sure all authors are credited and have agreed to
-publish.)*
+Aghashabani. 
 
 ## License
 
-No license has been chosen yet. Until one is added, all rights are reserved by
-default — add an `MIT` or similar permissive license file if you want others to
-be able to reuse this code.
+No license has been chosen yet
